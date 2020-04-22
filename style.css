@@ -1,0 +1,50 @@
+.collapse-button {
+  left: -0.3em;
+  bottom: -1.5em;
+  margin-left: 15px;
+  font-size: 13px;
+}
+
+.goal[data-collapsed="1"] {
+  cursor: pointer;
+}
+
+.goal[data-collapsed="1"] .slug {
+  text-decoration: none !important;
+  font-weight: normal !important;
+}
+
+.goal[data-collapsed="1"],
+.goal[data-collapsed="1"] .descriptors,
+.goal[data-collapsed="1"] .descriptors > .slug {
+  height: 22px !important;
+}
+
+.goal[data-collapsed="1"] .descriptors {
+  padding-top: 1px;
+}
+
+.goal[data-collapsed="1"] * {
+  line-height: 1 !important;
+}
+
+.goal[data-collapsed="1"] > .col-auto,
+.goal[data-collapsed="1"] .summary,
+.goal[data-collapsed="1"] .last-datapoint,
+.goal[data-collapsed="1"] .collapse-button,
+.goal[data-collapsed="1"] .descriptors > div.title {
+  display: none;
+}
+
+.goal[data-collapsed="1"] > .goal-data > .row {
+  margin-top: 2px !important;
+}
+
+.filter-box {
+  margin-top: 12px;
+}
+
+.filter-box.hidden,
+.goal.hidden {
+  display: none;
+}
