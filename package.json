@@ -1,0 +1,22 @@
+{
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {
+    "build-ext": "npm run clean -s && npm run build -s && web-ext build",
+    "build": "parcel build script.js style.css",
+    "clean": "rm -rf dist web-ext-artifacts",
+    "fix": "eslint --fix .",
+    "lint": "eslint . && web-ext lint"
+  },
+  "devDependencies": {
+    "cssnano": "^4.1.10",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "parcel-bundler": "^1.12.4",
+    "web-ext": "^4.2.0"
+  }
+}
