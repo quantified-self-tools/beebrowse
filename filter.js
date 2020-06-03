@@ -73,7 +73,7 @@ function automaticTags (elem) {
   return autotags
 }
 
-function filterFields (elem) {
+function filterAttrs (elem) {
   const titleText = getTitleText(elem)
   const slug = elem.dataset.slug
   const autotags = automaticTags(elem)
@@ -92,8 +92,19 @@ function applyFilterShowHide (elem, value) {
     return
   }
 
-  const anyMatch = filterFields(elem)
-    .some(field => field.includes(value))
+  const terms = value
+    .split(/\s/g)
+    .filter(term => !!term)
+
+  const attrsToFilter = filterAttrs(elem)
+
+  const anyMatch =
+    terms.every(term =>
+      attrsToFilter
+        .some(elementField =>
+          elementField.includes(term)
+        )
+    )
 
   if (anyMatch) {
     elem.classList.remove('hidden')
