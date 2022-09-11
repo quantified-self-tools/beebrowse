@@ -1,16 +1,18 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "BeeBrowse",
   "version": "0.0.3",
   "description": "The unofficial Beeminder browser extension.",
-  "icons": {
-  },
   "content_scripts": [
     {
       "matches": ["*://*.beeminder.com/*"],
       "js": ["dist/script.js"],
       "css": ["dist/style.css"]
     }
-  ]
-
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{8a99e40c-ed1a-4ae7-82f8-c2c099f5f2d4}"
+    }
+  }
 }
