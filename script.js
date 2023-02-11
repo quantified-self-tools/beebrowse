@@ -1,6 +1,7 @@
 import Collapse from './collapse'
 import Filter from './filter'
 import Hotkeys from './hotkeys'
+import { dispatch } from './events'
 
 try {
   Collapse.init()
@@ -13,6 +14,8 @@ try {
     elem.blur()
   })
   Hotkeys.on('uncollapse-all', () => Collapse.uncollapseAll())
+
+  dispatch('init')
 } catch (err) {
   console.error(err)
 }

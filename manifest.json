@@ -1,7 +1,7 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "BeeBrowse",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The unofficial Beeminder browser extension.",
   "content_scripts": [
     {

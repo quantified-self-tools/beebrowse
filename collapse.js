@@ -8,6 +8,7 @@ import {
   isGoalCollapsed,
   isGoalRed
 } from './util'
+import { dispatch } from './events'
 
 export default {
   init () {
@@ -80,6 +81,12 @@ function toggleCollapseGoal (elem) {
   renderGoalList()
 
   applyLabel(elem)
+
+  if (collapsed) {
+    dispatch('uncollapse', { slug: elem.dataset.slug })
+  } else {
+    dispatch('collapse', { slug: elem.dataset.slug })
+  }
 }
 
 function isBeeminderExpanded (goal) {
