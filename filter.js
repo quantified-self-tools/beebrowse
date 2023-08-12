@@ -78,6 +78,8 @@ function filterAttrs (elem) {
   const slug = elem.dataset.slug
   const autotags = automaticTags(elem)
   const tags = splitTagsData(elem.dataset.tags)
+    .map(tag => tag.toLowerCase())
+
   return [
     slug,
     ...titleText,
