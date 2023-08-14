@@ -70,6 +70,15 @@ function automaticTags (elem) {
 
   if (elem.dataset.coasting === 'true') autotags.push('coasting')
   if (elem.dataset.hhmmformat === 'true') autotags.push('time')
+
+  const todayta = elem.querySelector('.todayta')
+
+  if (todayta && !todayta.classList.contains('hidden')) {
+    autotags.push('done')
+  } else {
+    autotags.push('open')
+  }
+
   return autotags
 }
 
