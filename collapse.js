@@ -5,8 +5,7 @@ import {
   getGoalElements,
   getGoalParentElement,
   goalCmp,
-  isGoalCollapsed,
-  isGoalRed
+  isGoalCollapsed
 } from './util'
 import { dispatch } from './events'
 
@@ -42,10 +41,6 @@ export default {
 }
 
 function addCollapseButton (elem) {
-  if (isGoalRed(elem)) {
-    return
-  }
-
   const summary = elem.querySelector('.summary')
   if (summary) {
     summary.append(createElement('a', 'collapse', {
@@ -97,12 +92,6 @@ function isBeeminderExpanded (goal) {
 
 function loadCollapsedState (elem) {
   const collapsed = LocalStorage.loadCollapsed(elem.dataset)
-
-  if (collapsed && isGoalRed(elem)) {
-    elem.dataset.collapsed = 0
-    LocalStorage.storeCollapsed(elem.dataset)
-    return
-  }
 
   elem.dataset.collapsed = collapsed
 

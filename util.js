@@ -22,10 +22,6 @@ export function createGoalLabel ({ baremin, losedate }) {
   })
 }
 
-export function isGoalRed (elem) {
-  return Array.from(elem.classList).includes('red')
-}
-
 export function goalCmp ({ dataset: x }, { dataset: y }) {
   if (+x.collapsed === +y.collapsed) {
     return +x.losedate === +y.losedate ? 0 : +x.losedate > +y.losedate ? 1 : -1
