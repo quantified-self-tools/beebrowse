@@ -24,7 +24,7 @@ export function createGoalLabel ({ baremin, losedate }) {
 
 export function goalCmp ({ dataset: x }, { dataset: y }) {
   if (+x.collapsed === +y.collapsed) {
-    return +x.losedate === +y.losedate ? 0 : +x.losedate > +y.losedate ? 1 : -1
+    return x.urgencykey === y.urgencykey ? 0 : x.urgencykey > y.urgencykey ? 1 : -1
   } else {
     if (+x.collapsed) return 1
     else return -1
