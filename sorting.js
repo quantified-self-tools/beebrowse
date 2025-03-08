@@ -1,5 +1,6 @@
 import { getGoalParentElement } from './util'
 import { renderGoalList } from './goals'
+import { dispatch } from './events'
 
 export default {
   init () {
@@ -50,6 +51,8 @@ export default {
   },
 
   set sortBy (value) {
+    dispatch('sorted', { by: value })
+
     const arrows = document.querySelectorAll('.sort-arrow[data-sort-string]')
 
     arrows.forEach((el) => {
