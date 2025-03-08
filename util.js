@@ -4,6 +4,10 @@ export function futureDays (date) {
   return Math.floor((date * 1000 - Date.now()) / MILLISECONDS_IN_DAY)
 }
 
+export function compare (a, b) {
+  return a === b ? 0 : a > b ? 1 : -1
+}
+
 export function createElement (tag, text = null, props = {}) {
   const elem = document.createElement(tag)
   if (text) {
@@ -26,7 +30,7 @@ function compareGoalsBy (by, { dataset: x }, { dataset: y }, transform = String)
   if (+x.collapsed === +y.collapsed) {
     const xVal = transform(x[by])
     const yVal = transform(y[by])
-    return xVal === yVal ? 0 : xVal > yVal ? 1 : -1
+    return compare(xVal, yVal)
   } else {
     if (+x.collapsed) return 1
     else return -1
@@ -37,7 +41,7 @@ function simpleCmp ({ dataset: x }, { dataset: y }) {
   if (+x.collapsed === +y.collapsed) {
     const xLosedate = futureDays(+x.losedate)
     const yLosedate = futureDays(+y.losedate)
-    return xLosedate === yLosedate ? 0 : xLosedate > yLosedate ? 1 : -1
+    return compare(xLosedate, yLosedate)
   } else {
     if (+x.collapsed) return 1
     else return -1
