@@ -22,17 +22,57 @@ export function createGoalLabel ({ baremin, losedate }) {
   })
 }
 
-export function goalCmp ({ dataset: x }, { dataset: y }) {
+function goalCmp (by, { dataset: x }, { dataset: y }, transform = String) {
   if (+x.collapsed === +y.collapsed) {
-    return x.urgencykey === y.urgencykey ? 0 : x.urgencykey > y.urgencykey ? 1 : -1
+    const xVal = transform(x[by])
+    const yVal = transform(y[by])
+    return xVal === yVal ? 0 : xVal > yVal ? 1 : -1
   } else {
     if (+x.collapsed) return 1
     else return -1
   }
 }
 
+function simpleCmp ({ dataset: x }, { dataset: y }) {
+  if (+x.collapsed === +y.collapsed) {
+    const xLosedate = futureDays(x.losedate)
+    const yLosedate = futureDays(y.losedate)
+    return xLosedate === yLosedate ? 0 : xLosedate > yLosedate ? 1 : -1
+  } else {
+    if (+x.collapsed) return 1
+    else return -1
+  }
+}
+
+function inverseNumber (value) {
+  return -Number(value)
+}
+
+export function sortGoals (elems, sortBy) {
+  let compare
+
+  if (sortBy === 'slug') {
+    compare = (a, b) => goalCmp('slug', a, b)
+  } else if (sortBy === 'pledge') {
+    compare = (a, b) => goalCmp('pledge', a, b, inverseNumber) || goalCmp('losedate', a, b, Number) || goalCmp('slug', a, b)
+  } else if (sortBy === 'lasttouch') {
+    compare = (a, b) => goalCmp('lasttouch', a, b, inverseNumber) || goalCmp('slug', a, b)
+  } else if (sortBy === 'urgency') {
+    compare = (a, b) => goalCmp('urgencykey', a, b)
+  } else if (sortBy === 'simple') {
+    compare = (a, b) => simpleCmp(a, b) || goalCmp('slug', a, b)
+  } else {
+    console.error(`Unknown sort string: ${sortBy}`)
+    return sortGoals(elems, 'urgency')
+  }
+
+  elems.sort(compare)
+}
+
 export function getGoalElements () {
-  return Array.from(document.querySelectorAll('.dashboard > .panel > .goals > .goal'))
+  return Array.from(
+    document.querySelectorAll('.dashboard > .panel > .goals > .goal')
+  )
 }
 
 export function getGoalParentElement () {

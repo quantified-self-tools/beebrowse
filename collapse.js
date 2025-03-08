@@ -4,9 +4,9 @@ import {
   createGoalLabel,
   getGoalElements,
   getGoalParentElement,
-  goalCmp,
   isGoalCollapsed
 } from './util'
+import { renderGoalList } from './goals'
 import { dispatch } from './events'
 
 export default {
@@ -96,14 +96,6 @@ function loadCollapsedState (elem) {
   elem.dataset.collapsed = collapsed
 
   applyLabel(elem)
-}
-
-function renderGoalList () {
-  const elems = getGoalElements()
-  elems.sort(goalCmp)
-
-  const goalParent = getGoalParentElement()
-  elems.forEach(elem => goalParent.append(elem))
 }
 
 function applyLabel (elem) {

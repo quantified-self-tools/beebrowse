@@ -48,3 +48,14 @@
 .goal.hidden {
   display: none;
 }
+
+.simple-sort-icon {
+  height: 32px;
+  width: 32px;
+}
+
+.expand-collapse + .spacer {
+  height: 100% !important;
+  justify-content: center;
+  align-items: center;
+}
