@@ -63,7 +63,7 @@ function addCollapseListener (elem) {
   })
 }
 
-function toggleCollapseGoal (elem) {
+export function toggleCollapseGoal (elem) {
   const collapsed = isGoalCollapsed(elem)
 
   if (!collapsed && isBeeminderExpanded(elem)) {

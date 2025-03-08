@@ -77,5 +77,6 @@ export default {
       url.searchParams.delete('sorting')
       window.history.replaceState({}, '', url)
     }
-  }
+  },
+  allowedSortValues: ['slug', 'pledge', 'lasttouch', 'urgency', 'simple']
 }

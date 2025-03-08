@@ -83,10 +83,22 @@ export function getGoalElements () {
   )
 }
 
+export function getGoalBySlug (slug) {
+  return document.querySelector(`.dashboard > .panel > .goals > .goal[data-slug="${slug}"]`)
+}
+
 export function getGoalParentElement () {
   return document.querySelector('.dashboard > .panel > .goals')
 }
 
 export function isGoalCollapsed (elem) {
   return Boolean(+elem.dataset.collapsed)
+}
+
+export function clone (object, opts = {}) {
+  if (Object.hasOwn(globalThis, 'cloneInto')) {
+    return globalThis.cloneInto(object, document.defaultView, opts)
+  } else {
+    return object
+  }
 }
