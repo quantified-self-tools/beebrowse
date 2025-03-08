@@ -16,7 +16,7 @@ export function createElement (tag, text = null, props = {}) {
 }
 
 export function createGoalLabel ({ baremin, losedate }) {
-  const text = ` (${baremin}/${futureDays(losedate)}d)`
+  const text = ` (${baremin}/${futureDays(+losedate)}d)`
   return createElement('span', text, {
     className: 'small-description'
   })
@@ -35,8 +35,8 @@ function compareGoalsBy (by, { dataset: x }, { dataset: y }, transform = String)
 
 function simpleCmp ({ dataset: x }, { dataset: y }) {
   if (+x.collapsed === +y.collapsed) {
-    const xLosedate = futureDays(x.losedate)
-    const yLosedate = futureDays(y.losedate)
+    const xLosedate = futureDays(+x.losedate)
+    const yLosedate = futureDays(+y.losedate)
     return xLosedate === yLosedate ? 0 : xLosedate > yLosedate ? 1 : -1
   } else {
     if (+x.collapsed) return 1
