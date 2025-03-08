@@ -22,7 +22,7 @@ export function createGoalLabel ({ baremin, losedate }) {
   })
 }
 
-function goalCmp (by, { dataset: x }, { dataset: y }, transform = String) {
+function compareGoalsBy (by, { dataset: x }, { dataset: y }, transform = String) {
   if (+x.collapsed === +y.collapsed) {
     const xVal = transform(x[by])
     const yVal = transform(y[by])
@@ -52,15 +52,15 @@ export function sortGoals (elems, sortBy) {
   let compare
 
   if (sortBy === 'slug') {
-    compare = (a, b) => goalCmp('slug', a, b)
+    compare = (a, b) => compareGoalsBy('slug', a, b)
   } else if (sortBy === 'pledge') {
-    compare = (a, b) => goalCmp('pledge', a, b, inverseNumber) || goalCmp('losedate', a, b, Number) || goalCmp('slug', a, b)
+    compare = (a, b) => compareGoalsBy('pledge', a, b, inverseNumber) || compareGoalsBy('losedate', a, b, Number) || compareGoalsBy('slug', a, b)
   } else if (sortBy === 'lasttouch') {
-    compare = (a, b) => goalCmp('lasttouch', a, b, inverseNumber) || goalCmp('slug', a, b)
+    compare = (a, b) => compareGoalsBy('lasttouch', a, b, inverseNumber) || compareGoalsBy('slug', a, b)
   } else if (sortBy === 'urgency') {
-    compare = (a, b) => goalCmp('urgencykey', a, b)
+    compare = (a, b) => compareGoalsBy('urgencykey', a, b)
   } else if (sortBy === 'simple') {
-    compare = (a, b) => simpleCmp(a, b) || goalCmp('slug', a, b)
+    compare = (a, b) => simpleCmp(a, b) || compareGoalsBy('slug', a, b)
   } else {
     console.error(`Unknown sort string: ${sortBy}`)
     return sortGoals(elems, 'urgency')
