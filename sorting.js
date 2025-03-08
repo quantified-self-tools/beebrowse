@@ -9,6 +9,8 @@ export default {
       '.expand-collapse + .spacer'
     )
 
+    this.setSortFromQueryParam()
+
     document
       .querySelectorAll('.simple-sort-button')
       .forEach((elem) => elem.remove())
@@ -50,5 +52,18 @@ export default {
     })
 
     renderGoalList()
+  },
+  setSortFromQueryParam () {
+    const url = new URL(window.location.href)
+    const sorting = url.searchParams.get('sorting')
+    if (sorting) {
+      if (sorting !== this.sortBy) {
+        console.log(sorting)
+        this.sortBy = sorting
+      }
+
+      url.searchParams.delete('sorting')
+      window.history.replaceState({}, '', url)
+    }
   }
 }
