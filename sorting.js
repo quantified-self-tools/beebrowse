@@ -15,6 +15,15 @@ export default {
       .querySelectorAll('.simple-sort-button')
       .forEach((elem) => elem.remove())
 
+    document.querySelectorAll('.sort-button[data-sort-string]').forEach((el) => {
+      el.addEventListener('click', (event) => {
+        event.preventDefault()
+        event.stopImmediatePropagation()
+
+        this.sortBy = el.dataset.sortString
+      }, { capture: true })
+    })
+
     const simpleSortBtn = document.createElement('a')
     simpleSortBtn.href = '#'
     simpleSortBtn.classList.add('simple-sort-button')
