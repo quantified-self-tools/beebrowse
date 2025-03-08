@@ -26,25 +26,29 @@ export function createGoalLabel ({ baremin, losedate }) {
   })
 }
 
-function compareGoalsBy (by, { dataset: x }, { dataset: y }, transform = String) {
-  if (+x.collapsed === +y.collapsed) {
-    const xVal = transform(x[by])
-    const yVal = transform(y[by])
+function compareGoalsBy (by, goalX, goalY, transform = String) {
+  const isXCollapsed = isGoalCollapsed(goalX)
+  const isYCollapsed = isGoalCollapsed(goalY)
+
+  if (isXCollapsed === isYCollapsed) {
+    const xVal = transform(goalX.dataset[by])
+    const yVal = transform(goalY.dataset[by])
     return compare(xVal, yVal)
   } else {
-    if (+x.collapsed) return 1
-    else return -1
+    return isXCollapsed ? 1 : -1
   }
 }
 
-function simpleCmp ({ dataset: x }, { dataset: y }) {
-  if (+x.collapsed === +y.collapsed) {
-    const xLosedate = futureDays(+x.losedate)
-    const yLosedate = futureDays(+y.losedate)
+function simpleCmp (goalX, goalY) {
+  const isXCollapsed = isGoalCollapsed(goalX)
+  const isYCollapsed = isGoalCollapsed(goalY)
+
+  if (isXCollapsed === isYCollapsed) {
+    const xLosedate = futureDays(+goalX.dataset.losedate)
+    const yLosedate = futureDays(+goalY.dataset.losedate)
     return compare(xLosedate, yLosedate)
   } else {
-    if (+x.collapsed) return 1
-    else return -1
+    return isXCollapsed ? 1 : -1
   }
 }
 
