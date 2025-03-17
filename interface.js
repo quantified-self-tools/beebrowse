@@ -1,6 +1,6 @@
-import Sorting from './sorting'
-import Collapse, { toggleCollapseGoal } from './collapse'
-import { isGoalCollapsed, getGoalBySlug, getGoalElements, clone } from './util'
+import Sorting from "./sorting"
+import Collapse, { toggleCollapseGoal } from "./collapse"
+import { isGoalCollapsed, getGoalBySlug, getGoalElements, clone } from "./util"
 
 // Security:
 // The object exported by this module is cloned into the page's global object.
@@ -9,78 +9,80 @@ import { isGoalCollapsed, getGoalBySlug, getGoalElements, clone } from './util'
 // extension functionality that websites shouldn't get access to.
 
 export default {
-  collapse (slug) {
+  collapse(slug) {
     validateSlug(slug)
     const elem = goalElemBySlug(slug)
     if (isGoalCollapsed(elem)) return
     toggleCollapseGoal(elem)
   },
-  uncollapse (slug) {
+  uncollapse(slug) {
     validateSlug(slug)
     const elem = goalElemBySlug(slug)
     if (!isGoalCollapsed(elem)) return
     toggleCollapseGoal(elem)
   },
-  toggleCollapse (slug) {
+  toggleCollapse(slug) {
     validateSlug(slug)
     toggleCollapseGoal(goalElemBySlug(slug))
   },
-  setCollapse (slug, value) {
+  setCollapse(slug, value) {
     validateSlug(slug)
 
     const elem = goalElemBySlug(slug)
     if (Boolean(value) === isGoalCollapsed(elem)) return
     toggleCollapseGoal(elem)
   },
-  uncollapseAll () {
+  uncollapseAll() {
     Collapse.uncollapseAll()
   },
-  isCollapsed (slug) {
+  isCollapsed(slug) {
     validateSlug(slug)
     return isGoalCollapsed(goalElemBySlug(slug))
   },
-  getSort () {
+  getSort() {
     return Sorting.sortBy
   },
-  setSort (value) {
+  setSort(value) {
     validateSortValue(value)
     Sorting.sortBy = value
   },
-  listGoals () {
+  listGoals() {
     return clone(getGoalElements().map((elem) => elem.dataset.slug))
   },
-  listGoalsWithTag (tag) {
+  listGoalsWithTag(tag) {
     validateTag(tag)
-    return clone(getGoalElements()
-      .filter((elem) => elem.dataset.tags.split(',').includes(tag))
-      .map((elem) => elem.dataset.slug))
-  }
+    return clone(
+      getGoalElements()
+        .filter((elem) => elem.dataset.tags.split(",").includes(tag))
+        .map((elem) => elem.dataset.slug),
+    )
+  },
 }
 
-function goalElemBySlug (slug) {
+function goalElemBySlug(slug) {
   const elem = getGoalBySlug(slug)
   if (elem) return elem
   throw new Error(`Goal with slug "${slug}" not found`)
 }
 
-function validateSlug (slug) {
-  if (typeof slug !== 'string') {
+function validateSlug(slug) {
+  if (typeof slug !== "string") {
     throw new Error(`Invalid (non-string) slug: ${slug}`)
-  } else if (slug === '') {
-    throw new Error('Slug should not be empty')
+  } else if (slug === "") {
+    throw new Error("Slug should not be empty")
   }
 }
 
-function validateSortValue (value) {
+function validateSortValue(value) {
   if (!Sorting.allowedSortValues.includes(value)) {
     throw new Error(`Invalid value for sort: ${value}`)
   }
 }
 
-function validateTag (tag) {
-  if (typeof tag !== 'string') {
+function validateTag(tag) {
+  if (typeof tag !== "string") {
     throw new Error(`Invalid (non-string) tag: ${tag}`)
-  } else if (tag === '') {
-    throw new Error('Tag should not be empty')
+  } else if (tag === "") {
+    throw new Error("Tag should not be empty")
   }
 }

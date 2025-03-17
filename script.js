@@ -1,11 +1,11 @@
-import Collapse from './collapse'
-import Filter from './filter'
-import Hotkeys from './hotkeys'
-import Sorting from './sorting'
-import Interface from './interface'
+import Collapse from "./collapse"
+import Filter from "./filter"
+import Hotkeys from "./hotkeys"
+import Sorting from "./sorting"
+import Interface from "./interface"
 
-import { dispatch } from './events'
-import { clone } from './util'
+import { dispatch } from "./events"
+import { clone } from "./util"
 
 try {
   Collapse.init()
@@ -13,17 +13,17 @@ try {
   Hotkeys.init()
   Sorting.init()
 
-  Hotkeys.on('filter', () => Filter.focusFilter())
-  Hotkeys.on('escape-hide', (elem) => {
-    elem.value = ''
+  Hotkeys.on("filter", () => Filter.focusFilter())
+  Hotkeys.on("escape-hide", (elem) => {
+    elem.value = ""
     elem.blur()
   })
-  Hotkeys.on('uncollapse-all', () => Collapse.uncollapseAll())
+  Hotkeys.on("uncollapse-all", () => Collapse.uncollapseAll())
 
-  dispatch('init')
+  dispatch("init")
   if (window.wrappedJSObject) {
     window.wrappedJSObject.BeeBrowse = clone(Interface, {
-      cloneFunctions: true
+      cloneFunctions: true,
     })
   }
 } catch (err) {

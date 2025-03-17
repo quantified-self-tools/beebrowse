@@ -1,14 +1,14 @@
 const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
 
-export function futureDays (date) {
+export function futureDays(date) {
   return Math.floor((date * 1000 - Date.now()) / MILLISECONDS_IN_DAY)
 }
 
-export function compare (a, b) {
+export function compare(a, b) {
   return a === b ? 0 : a > b ? 1 : -1
 }
 
-export function createElement (tag, text = null, props = {}) {
+export function createElement(tag, text = null, props = {}) {
   const elem = document.createElement(tag)
   if (text) {
     elem.textContent = text
@@ -19,14 +19,14 @@ export function createElement (tag, text = null, props = {}) {
   return elem
 }
 
-export function createGoalLabel ({ baremin, losedate }) {
+export function createGoalLabel({ baremin, losedate }) {
   const text = ` (${baremin}/${futureDays(+losedate)}d)`
-  return createElement('span', text, {
-    className: 'small-description'
+  return createElement("span", text, {
+    className: "small-description",
   })
 }
 
-function compareGoalsBy (by, goalX, goalY, transform = String) {
+function compareGoalsBy(by, goalX, goalY, transform = String) {
   const isXCollapsed = isGoalCollapsed(goalX)
   const isYCollapsed = isGoalCollapsed(goalY)
 
@@ -39,7 +39,7 @@ function compareGoalsBy (by, goalX, goalY, transform = String) {
   }
 }
 
-function simpleCmp (goalX, goalY) {
+function simpleCmp(goalX, goalY) {
   const isXCollapsed = isGoalCollapsed(goalX)
   const isYCollapsed = isGoalCollapsed(goalY)
 
@@ -52,51 +52,58 @@ function simpleCmp (goalX, goalY) {
   }
 }
 
-function inverseNumber (value) {
+function inverseNumber(value) {
   return -Number(value)
 }
 
-export function sortGoals (elems, sortBy) {
+export function sortGoals(elems, sortBy) {
   let compare
 
-  if (sortBy === 'slug') {
-    compare = (a, b) => compareGoalsBy('slug', a, b)
-  } else if (sortBy === 'pledge') {
-    compare = (a, b) => compareGoalsBy('pledge', a, b, inverseNumber) || compareGoalsBy('losedate', a, b, Number) || compareGoalsBy('slug', a, b)
-  } else if (sortBy === 'lasttouch') {
-    compare = (a, b) => compareGoalsBy('lasttouch', a, b, inverseNumber) || compareGoalsBy('slug', a, b)
-  } else if (sortBy === 'urgency') {
-    compare = (a, b) => compareGoalsBy('urgencykey', a, b)
-  } else if (sortBy === 'simple') {
-    compare = (a, b) => simpleCmp(a, b) || compareGoalsBy('slug', a, b)
+  if (sortBy === "slug") {
+    compare = (a, b) => compareGoalsBy("slug", a, b)
+  } else if (sortBy === "pledge") {
+    compare = (a, b) =>
+      compareGoalsBy("pledge", a, b, inverseNumber) ||
+      compareGoalsBy("losedate", a, b, Number) ||
+      compareGoalsBy("slug", a, b)
+  } else if (sortBy === "lasttouch") {
+    compare = (a, b) =>
+      compareGoalsBy("lasttouch", a, b, inverseNumber) ||
+      compareGoalsBy("slug", a, b)
+  } else if (sortBy === "urgency") {
+    compare = (a, b) => compareGoalsBy("urgencykey", a, b)
+  } else if (sortBy === "simple") {
+    compare = (a, b) => simpleCmp(a, b) || compareGoalsBy("slug", a, b)
   } else {
     console.error(`Unknown sort string: ${sortBy}`)
-    return sortGoals(elems, 'urgency')
+    return sortGoals(elems, "urgency")
   }
 
   elems.sort(compare)
 }
 
-export function getGoalElements () {
+export function getGoalElements() {
   return Array.from(
-    document.querySelectorAll('.dashboard > .panel > .goals > .goal')
+    document.querySelectorAll(".dashboard > .panel > .goals > .goal"),
   )
 }
 
-export function getGoalBySlug (slug) {
-  return document.querySelector(`.dashboard > .panel > .goals > .goal[data-slug="${slug}"]`)
+export function getGoalBySlug(slug) {
+  return document.querySelector(
+    `.dashboard > .panel > .goals > .goal[data-slug="${slug}"]`,
+  )
 }
 
-export function getGoalParentElement () {
-  return document.querySelector('.dashboard > .panel > .goals')
+export function getGoalParentElement() {
+  return document.querySelector(".dashboard > .panel > .goals")
 }
 
-export function isGoalCollapsed (elem) {
+export function isGoalCollapsed(elem) {
   return Boolean(+elem.dataset.collapsed)
 }
 
-export function clone (object, opts = {}) {
-  if (Object.hasOwn(globalThis, 'cloneInto')) {
+export function clone(object, opts = {}) {
+  if (Object.hasOwn(globalThis, "cloneInto")) {
     return globalThis.cloneInto(object, document.defaultView, opts)
   } else {
     return object
