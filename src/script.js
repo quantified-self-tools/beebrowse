@@ -3,15 +3,21 @@ import * as Filter from "./filter"
 import * as Hotkeys from "./hotkeys"
 import * as Sorting from "./sorting"
 import * as Interface from "./interface"
+import { storeGoalsList } from "./localStorage"
+import * as NotFound from "./404"
 
 import { dispatch } from "./events"
-import { clone } from "./util"
+import { clone, getGoalElements, getGoalParentElement } from "./util"
+
 
 try {
   Collapse.init()
   Filter.init()
   Hotkeys.init()
   Sorting.init()
+
+  recordGoalsList()
+  NotFound.init()
 
   Hotkeys.on("filter", () => Filter.focusFilter())
   Hotkeys.on("escape-hide", (elem) => {
@@ -28,4 +34,11 @@ try {
   }
 } catch (err) {
   console.error(err)
+}
+
+function recordGoalsList() {
+  if (!getGoalParentElement()) return
+
+  const slugs = getGoalElements().map((elem) => elem.dataset.slug)
+  storeGoalsList(slugs)
 }
