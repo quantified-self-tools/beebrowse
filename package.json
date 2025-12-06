@@ -7,19 +7,25 @@
     "clean": "rm -rf dist web-ext-artifacts",
     "fix": "npm run -s format && eslint --fix .",
     "format": "prettier --write .",
-    "lint": "prettier --check . && eslint . && web-ext lint"
+    "lint": "prettier --check . && eslint . && web-ext lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
   },
   "devDependencies": {
+    "@vitest/ui": "^4.0.15",
     "cssnano": "^6.1.2",
     "eslint": "^8.47.0",
-    "eslint-config-standard": "^17.1.0",
     "eslint-config-prettier": "^10.1.1",
+    "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^5.0.0",
+    "jsdom": "^27.2.0",
     "parcel": "^2.12.0",
     "prettier": "^3.5.3",
+    "vitest": "^4.0.15",
     "web-ext": "^7.11.0"
   }
 }
