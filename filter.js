@@ -1,40 +1,37 @@
 import { createElement, getGoalElements, getGoalParentElement } from "./util"
 
-export default {
-  init() {
-    if (!getGoalParentElement()) return
+export function init() {
+  if (!getGoalParentElement()) return
 
-    this.undo()
+  undo()
 
-    const filterBox = createElement("input", null, {
-      placeholder: "Filter",
-      className: "filter-box",
-      tabIndex: 10000,
-    })
+  const filterBox = createElement("input", null, {
+    placeholder: "Filter",
+    className: "filter-box",
+    tabIndex: 10000,
+  })
 
-    const topNav = document.querySelector(".main-nav > .row > .links")
-    topNav.prepend(filterBox)
+  const topNav = document.querySelector(".main-nav > .row > .links")
+  topNav.prepend(filterBox)
+  filterBox.classList.add("hidden")
+  filterBox.dataset.escapehide = "true"
 
-    filterBox.classList.add("hidden")
-    filterBox.dataset.escapehide = "true"
+  filterBox.addEventListener("input", onFilterChange)
+  filterBox.addEventListener("blur", onFilterBlur)
+}
 
-    filterBox.addEventListener("input", onFilterChange)
-    filterBox.addEventListener("blur", onFilterBlur)
-  },
-  undo() {
-    document
-      .querySelectorAll("input.filter-box")
-      .forEach((elem) => elem.remove())
+export function undo() {
+  document.querySelectorAll("input.filter-box").forEach((elem) => elem.remove())
 
-    getGoalElements().forEach((elem) => {
-      elem.classList.remove("hidden")
-    })
-  },
-  focusFilter() {
-    const filterBox = document.querySelector(".filter-box")
-    filterBox.classList.remove("hidden")
-    filterBox.focus()
-  },
+  getGoalElements().forEach((elem) => {
+    elem.classList.remove("hidden")
+  })
+}
+
+export function focusFilter() {
+  const filterBox = document.querySelector(".filter-box")
+  filterBox.classList.remove("hidden")
+  filterBox.focus()
 }
 
 function onFilterChange(event) {
@@ -82,10 +79,14 @@ function automaticTags(elem) {
 function filterAttrs(elem) {
   const titleText = getTitleText(elem)
   const slug = elem.dataset.slug
-  const autotags = automaticTags(elem)
-  const tags = splitTagsData(elem.dataset.tags).map((tag) => tag.toLowerCase())
 
-  return [slug, ...titleText, ...autotags, ...tags]
+  const autotags = automaticTags(elem)
+  const tags = splitTagsData(elem.dataset.tags)
+    .map((tag) => tag.toLowerCase())
+    .concat(autotags)
+    .map((tag) => "#" + tag)
+
+  return [slug, ...titleText, ...tags]
 }
 
 function applyFilterShowHide(elem, value) {

@@ -1,6 +1,8 @@
 import Sorting from "./sorting"
-import Collapse, { toggleCollapseGoal } from "./collapse"
+import { toggleCollapseGoal } from "./collapse"
 import { isGoalCollapsed, getGoalBySlug, getGoalElements, clone } from "./util"
+
+export { uncollapseAll } from "./collapse"
 
 // Security:
 // The object exported by this module is cloned into the page's global object.
@@ -8,55 +10,58 @@ import { isGoalCollapsed, getGoalBySlug, getGoalElements, clone } from "./util"
 // That means we have to be careful that we're not exposing browser
 // extension functionality that websites shouldn't get access to.
 
-export default {
-  collapse(slug) {
-    validateSlug(slug)
-    const elem = goalElemBySlug(slug)
-    if (isGoalCollapsed(elem)) return
-    toggleCollapseGoal(elem)
-  },
-  uncollapse(slug) {
-    validateSlug(slug)
-    const elem = goalElemBySlug(slug)
-    if (!isGoalCollapsed(elem)) return
-    toggleCollapseGoal(elem)
-  },
-  toggleCollapse(slug) {
-    validateSlug(slug)
-    toggleCollapseGoal(goalElemBySlug(slug))
-  },
-  setCollapse(slug, value) {
-    validateSlug(slug)
+export function collapse(slug) {
+  validateSlug(slug)
+  const elem = goalElemBySlug(slug)
+  if (isGoalCollapsed(elem)) return
+  toggleCollapseGoal(elem)
+}
 
-    const elem = goalElemBySlug(slug)
-    if (Boolean(value) === isGoalCollapsed(elem)) return
-    toggleCollapseGoal(elem)
-  },
-  uncollapseAll() {
-    Collapse.uncollapseAll()
-  },
-  isCollapsed(slug) {
-    validateSlug(slug)
-    return isGoalCollapsed(goalElemBySlug(slug))
-  },
-  getSort() {
-    return Sorting.sortBy
-  },
-  setSort(value) {
-    validateSortValue(value)
-    Sorting.sortBy = value
-  },
-  listGoals() {
-    return clone(getGoalElements().map((elem) => elem.dataset.slug))
-  },
-  listGoalsWithTag(tag) {
-    validateTag(tag)
-    return clone(
-      getGoalElements()
-        .filter((elem) => elem.dataset.tags.split(",").includes(tag))
-        .map((elem) => elem.dataset.slug),
-    )
-  },
+export function uncollapse(slug) {
+  validateSlug(slug)
+  const elem = goalElemBySlug(slug)
+  if (!isGoalCollapsed(elem)) return
+  toggleCollapseGoal(elem)
+}
+
+export function toggleCollapse(slug) {
+  validateSlug(slug)
+  toggleCollapseGoal(goalElemBySlug(slug))
+}
+
+export function setCollapse(slug, value) {
+  validateSlug(slug)
+
+  const elem = goalElemBySlug(slug)
+  if (Boolean(value) === isGoalCollapsed(elem)) return
+  toggleCollapseGoal(elem)
+}
+
+export function isCollapsed(slug) {
+  validateSlug(slug)
+  return isGoalCollapsed(goalElemBySlug(slug))
+}
+
+export function getSort() {
+  return Sorting.sortBy
+}
+
+export function setSort(value) {
+  validateSortValue(value)
+  Sorting.sortBy = value
+}
+
+export function listGoals() {
+  return clone(getGoalElements().map((elem) => elem.dataset.slug))
+}
+
+export function listGoalsWithTag(tag) {
+  validateTag(tag)
+  return clone(
+    getGoalElements()
+      .filter((elem) => elem.dataset.tags.split(",").includes(tag))
+      .map((elem) => elem.dataset.slug),
+  )
 }
 
 function goalElemBySlug(slug) {

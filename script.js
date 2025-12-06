@@ -1,8 +1,8 @@
-import Collapse from "./collapse"
-import Filter from "./filter"
-import Hotkeys from "./hotkeys"
+import * as Collapse from "./collapse"
+import * as Filter from "./filter"
+import * as Hotkeys from "./hotkeys"
 import Sorting from "./sorting"
-import Interface from "./interface"
+import * as Interface from "./interface"
 
 import { dispatch } from "./events"
 import { clone } from "./util"

@@ -1,10 +1,8 @@
-export default {
-  loadCollapsed({ slug }) {
-    const ls = localStorage["BeeBrowse/collapse/" + slug]
-    if (ls) return +ls
-    else return 0
-  },
-  storeCollapsed({ collapsed, slug }) {
-    localStorage["BeeBrowse/collapse/" + slug] = collapsed
-  },
+export function loadCollapsed(slug) {
+  const ls = localStorage["BeeBrowse/collapse/" + slug]
+  return ls ? +ls : 0
+}
+
+export function storeCollapsed(slug, collapsed) {
+  localStorage["BeeBrowse/collapse/" + slug] = collapsed
 }

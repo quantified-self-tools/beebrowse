@@ -1,4 +1,4 @@
-import LocalStorage from "./localStorage"
+import * as LocalStorage from "./localStorage"
 import {
   createElement,
   createGoalLabel,
@@ -9,33 +9,31 @@ import {
 import { renderGoalList } from "./goals"
 import { dispatch } from "./events"
 
-export default {
-  init() {
-    if (!getGoalParentElement()) return
+export function init() {
+  if (!getGoalParentElement()) return
 
-    // If we've already added the collapse buttons,
-    // we want to first remove the old buttons before
-    // adding new ones.
-    this.undo()
+  // If we've already added the collapse buttons,
+  // we want to first remove the old buttons before
+  // adding new ones.
+  undo()
 
-    const goalElements = getGoalElements()
+  const goalElements = getGoalElements()
 
-    goalElements.forEach((elem) => {
-      addCollapseButton(elem)
-      loadCollapsedState(elem)
-      addCollapseListener(elem)
-    })
+  goalElements.forEach((elem) => {
+    addCollapseButton(elem)
+    loadCollapsedState(elem)
+    addCollapseListener(elem)
+  })
 
-    renderGoalList()
-  },
-  undo() {
-    const parentElement = getGoalParentElement()
-    removeCollapseButtons(parentElement)
-    removeLabels(parentElement)
-  },
-  uncollapseAll() {
-    getGoalElements().filter(isGoalCollapsed).forEach(toggleCollapseGoal)
-  },
+  renderGoalList()
+}
+export function undo() {
+  const parentElement = getGoalParentElement()
+  removeCollapseButtons(parentElement)
+  removeLabels(parentElement)
+}
+export function uncollapseAll() {
+  getGoalElements().filter(isGoalCollapsed).forEach(toggleCollapseGoal)
 }
 
 function addCollapseButton(elem) {
@@ -74,7 +72,7 @@ export function toggleCollapseGoal(elem) {
   }
 
   elem.dataset.collapsed = collapsed ? 0 : 1
-  LocalStorage.storeCollapsed(elem.dataset)
+  LocalStorage.storeCollapsed(elem.dataset.slug, elem.dataset.collapsed)
 
   renderGoalList()
 
@@ -94,7 +92,7 @@ function isBeeminderExpanded(goal) {
 }
 
 function loadCollapsedState(elem) {
-  const collapsed = LocalStorage.loadCollapsed(elem.dataset)
+  const collapsed = LocalStorage.loadCollapsed(elem.dataset.slug)
 
   elem.dataset.collapsed = collapsed
 
