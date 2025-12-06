@@ -6,3 +6,7 @@ export function loadCollapsed(slug) {
 export function storeCollapsed(slug, collapsed) {
   localStorage["BeeBrowse/collapse/" + slug] = collapsed
 }
+
+export function loadBeeminderExpanded() {
+  return localStorage["com.beeminder.dashboard.expandedList"] || ""
+}

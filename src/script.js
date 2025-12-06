@@ -1,7 +1,7 @@
 import * as Collapse from "./collapse"
 import * as Filter from "./filter"
 import * as Hotkeys from "./hotkeys"
-import Sorting from "./sorting"
+import * as Sorting from "./sorting"
 import * as Interface from "./interface"
 
 import { dispatch } from "./events"

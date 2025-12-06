@@ -1,10 +1,10 @@
-import Sorting from "./sorting"
+import { getSortBy } from "./sorting"
 import { getGoalElements, getGoalParentElement, sortGoals } from "./util"
 
 export function renderGoalList() {
   const elems = getGoalElements()
 
-  sortGoals(elems, Sorting.sortBy)
+  sortGoals(elems, getSortBy())
 
   resetTabIndexes(elems)
 

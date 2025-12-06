@@ -86,7 +86,7 @@ export function toggleCollapseGoal(elem) {
 }
 
 function isBeeminderExpanded(goal) {
-  const expanded = localStorage["com.beeminder.dashboard.expandedList"] || ""
+  const expanded = LocalStorage.loadBeeminderExpanded()
   const expandedList = expanded.split(",")
   return expandedList.includes(goal.dataset.slug)
 }

@@ -1,4 +1,4 @@
-import Sorting from "./sorting"
+import { getSortBy, setSortBy, allowedSortValues } from "./sorting"
 import { toggleCollapseGoal } from "./collapse"
 import { isGoalCollapsed, getGoalBySlug, getGoalElements, clone } from "./util"
 
@@ -43,12 +43,12 @@ export function isCollapsed(slug) {
 }
 
 export function getSort() {
-  return Sorting.sortBy
+  return getSortBy()
 }
 
 export function setSort(value) {
   validateSortValue(value)
-  Sorting.sortBy = value
+  setSortBy(value)
 }
 
 export function listGoals() {
@@ -79,7 +79,7 @@ function validateSlug(slug) {
 }
 
 function validateSortValue(value) {
-  if (!Sorting.allowedSortValues.includes(value)) {
+  if (!allowedSortValues.includes(value)) {
     throw new Error(`Invalid value for sort: ${value}`)
   }
 }
