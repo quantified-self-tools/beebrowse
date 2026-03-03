@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build-ext": "npm run clean -s && npm run build -s && web-ext build",
-    "build": "parcel build src/script.js style.css",
+    "build": "parcel build script.js style.css",
     "clean": "rm -rf dist web-ext-artifacts",
     "fix": "npm run -s format && eslint --fix .",
     "format": "prettier --write .",

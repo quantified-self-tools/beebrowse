@@ -10,7 +10,7 @@ import { dispatch } from "./events"
 import { clone, getGoalElements, getGoalParentElement } from "./util"
 
 
-try {
+export function init () {
   Collapse.init()
   Filter.init()
   Hotkeys.init()
@@ -32,8 +32,6 @@ try {
       cloneFunctions: true,
     })
   }
-} catch (err) {
-  console.error(err)
 }
 
 function recordGoalsList() {
