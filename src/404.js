@@ -53,7 +53,7 @@ function getMissingGoalInfo() {
   return { username, slug }
 }
 
-function findClosestSlugs(targetSlug, slugs, limit) {
+export function findClosestSlugs(targetSlug, slugs, limit) {
   if (!Array.isArray(slugs) || !slugs.length) return []
 
   const normalizedTarget = targetSlug.toLowerCase().replace(/_/g, "-")
@@ -81,7 +81,26 @@ function similarityCategory(target, candidate) {
   if (candidate.startsWith(target)) return 0
   if (candidate.includes(target)) return 1
   if (isSubsequence(target, candidate)) return 2
-  return 3
+  if (isMultisetOf(target, candidate)) return 3
+  if (isSetOf(target, candidate)) return 4
+  return 5
+}
+
+function charCounts(s) {
+  const counts = {}
+  for (const ch of s) counts[ch] = (counts[ch] || 0) + 1
+  return counts
+}
+
+function isMultisetOf(target, candidate) {
+  const need = charCounts(target)
+  const have = charCounts(candidate)
+  return Object.keys(need).every((ch) => (have[ch] || 0) >= need[ch])
+}
+
+function isSetOf(target, candidate) {
+  const have = new Set(candidate)
+  return [...target].every((ch) => have.has(ch))
 }
 
 function isSubsequence(target, candidate) {
