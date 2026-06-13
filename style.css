@@ -12,12 +12,13 @@
 .goal[data-collapsed="1"] .slug {
   text-decoration: none !important;
   font-weight: normal !important;
+  margin-top: -2px !important;
 }
 
 .goal[data-collapsed="1"],
 .goal[data-collapsed="1"] .descriptors,
 .goal[data-collapsed="1"] .descriptors > .slug {
-  height: 22px !important;
+  height: 28px !important;
 }
 
 .goal[data-collapsed="1"] .descriptors {
