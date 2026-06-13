@@ -6,3 +6,4 @@ Features:
 
 - Minimize goals that you don't want to distract you, such as those that you're done with for the day.
 - Filter your using free-text search to easily see a relevant subset of them.
+- Get typo-fixing suggestions on goal 404 pages
