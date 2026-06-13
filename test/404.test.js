@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { findClosestSlugs } from '../src/404'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { findClosestSlugs, init } from '../src/404'
 
 describe('findClosestSlugs', () => {
   // -- Edge cases --
@@ -169,5 +169,150 @@ describe('findClosestSlugs', () => {
       'xbca',       // cat 4: set
       'zzzz',       // cat 5: none
     ])
+  })
+})
+
+describe('findClosestSlugs - normalization and category boundaries', () => {
+  // Target normalization: '_' must become '-' before comparison.
+  it('normalizes the target underscores to hyphens before ranking', () => {
+    const result = findClosestSlugs('foo_bar', ['foo-bar', 'foobar'], 2)
+    expect(result[0]).toBe('foo-bar')
+  })
+
+  // Slug normalization: a candidate's '_' must become '-' too.
+  it('normalizes candidate underscores to hyphens before ranking', () => {
+    const result = findClosestSlugs('a_b', ['a_b', 'a-bee'], 2)
+    expect(result[0]).toBe('a_b')
+  })
+
+  // Substring (cat 1) must rank above subsequence (cat 2) even when the
+  // substring match is the more edit-distant candidate.
+  it('treats a substring match as strictly better than a subsequence match', () => {
+    const result = findClosestSlugs('ab', ['xxabxx', 'axb'], 2)
+    expect(result[0]).toBe('xxabxx')
+  })
+
+  // Subsequence (cat 2) must rank above multiset (cat 3) even when more distant.
+  it('treats a subsequence match as strictly better than a multiset match', () => {
+    const result = findClosestSlugs('ab', ['axxxxb', 'ba'], 2)
+    expect(result[0]).toBe('axxxxb')
+  })
+
+  // isSetOf requires EVERY distinct target letter to be present, not just one.
+  it('requires all distinct letters for a set match, not merely one', () => {
+    // 'aq' has only 'a' (not a full set match -> cat 5); 'abqqqqqqqq' has the
+    // full {a,b} set (cat 4) and must therefore outrank 'aq'.
+    const result = findClosestSlugs('aab', ['aq', 'abqqqqqqqq'], 2)
+    expect(result[0]).toBe('abqqqqqqqq')
+  })
+})
+
+describe('404 init - suggestion rendering', () => {
+  let originalHref
+
+  function storeSnapshot(slugs, { ageSeconds = 0 } = {}) {
+    const timestamp = Math.floor(Date.now() / 1000) - ageSeconds
+    localStorage['BeeBrowse/goals'] = JSON.stringify({ timestamp, slugs })
+  }
+
+  function errorPage(innerHtml = '<div class="inner"></div>') {
+    document.body.innerHTML = `
+      <div class="error-page-container">
+        <div class="message">${innerHtml}</div>
+      </div>
+    `
+  }
+
+  beforeEach(() => {
+    originalHref = window.location.href
+    localStorage.clear()
+    window.history.replaceState({}, '', '/alice/running')
+  })
+
+  afterEach(() => {
+    window.history.replaceState({}, '', originalHref)
+    document.body.innerHTML = ''
+  })
+
+  it('renders ranked suggestion links into the message container', () => {
+    storeSnapshot(['runnin', 'run', 'xyz'])
+    errorPage()
+
+    init()
+
+    const wrapper = document.querySelector(
+      '.message .inner .beebrowse-suggestions',
+    )
+    expect(wrapper).not.toBeNull()
+    expect(wrapper.querySelector('p.center').textContent).toBe(
+      'Maybe you were looking for one of these:',
+    )
+
+    const links = wrapper.querySelectorAll('ol.beebrowse-suggestions-list li a')
+    expect(Array.from(links).map((a) => a.textContent)).toEqual([
+      'runnin',
+      'run',
+      'xyz',
+    ])
+    // Links point at the goal under the same username from the URL.
+    expect(links[0].getAttribute('href')).toBe('/alice/runnin')
+    expect(links[0].className).toBe('dark')
+  })
+
+  it('falls back to the message row itself when it has no child element', () => {
+    storeSnapshot(['runnin'])
+    errorPage('') // message row has no element children
+
+    init()
+
+    expect(
+      document.querySelector('.message > .beebrowse-suggestions'),
+    ).not.toBeNull()
+  })
+
+  it('does nothing when there is no error page', () => {
+    storeSnapshot(['runnin'])
+    document.body.innerHTML = '<div class="message"><div class="inner"></div></div>'
+
+    init()
+
+    expect(document.querySelector('.beebrowse-suggestions')).toBeNull()
+  })
+
+  it('does nothing when the stored snapshot is stale', () => {
+    storeSnapshot(['runnin'], { ageSeconds: 8 * 24 * 60 * 60 })
+    errorPage()
+
+    init()
+
+    expect(document.querySelector('.beebrowse-suggestions')).toBeNull()
+  })
+
+  it('does nothing when there are no slugs to suggest', () => {
+    storeSnapshot([])
+    errorPage()
+
+    init()
+
+    expect(document.querySelector('.beebrowse-suggestions')).toBeNull()
+  })
+
+  it('does nothing when the message container is missing', () => {
+    storeSnapshot(['runnin'])
+    document.body.innerHTML = '<div class="error-page-container"></div>'
+
+    init()
+
+    expect(document.querySelector('.beebrowse-suggestions')).toBeNull()
+  })
+
+  it('does not insert a second suggestion block when run twice', () => {
+    storeSnapshot(['runnin', 'run'])
+    errorPage()
+
+    init()
+    init()
+
+    expect(document.querySelectorAll('.beebrowse-suggestions')).toHaveLength(1)
   })
 })

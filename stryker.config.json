@@ -6,7 +6,15 @@
   "vitest": {
     "configFile": "vitest.config.js"
   },
-  "reporters": ["html", "clear-text", "progress"],
+  "reporters": ["html", "json", "clear-text", "progress"],
+  "jsonReporter": {
+    "fileName": "reports/mutation/mutation.json"
+  },
+  "clearTextReporter": {
+    "reportTests": false,
+    "reportMutants": true,
+    "maxTestsToLog": 0
+  },
   "coverageAnalysis": "perTest",
   "mutate": [
     "src/**/*.js",
