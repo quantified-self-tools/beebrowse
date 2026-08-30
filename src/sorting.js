@@ -2,7 +2,13 @@ import { getGoalParentElement } from "./util"
 import { renderGoalList } from "./goals"
 import { dispatch } from "./events"
 
-export const allowedSortValues = ["slug", "pledge", "lasttouch", "urgency", "simple"]
+export const allowedSortValues = [
+  "slug",
+  "pledge",
+  "lasttouch",
+  "urgency",
+  "simple",
+]
 
 export function init() {
   if (!getGoalParentElement()) return
@@ -17,20 +23,18 @@ export function init() {
     .querySelectorAll(".simple-sort-button")
     .forEach((elem) => elem.remove())
 
-  document
-    .querySelectorAll(".sort-button[data-sort-string]")
-    .forEach((el) => {
-      el.addEventListener(
-        "click",
-        (event) => {
-          event.preventDefault()
-          event.stopImmediatePropagation()
+  document.querySelectorAll(".sort-button[data-sort-string]").forEach((el) => {
+    el.addEventListener(
+      "click",
+      (event) => {
+        event.preventDefault()
+        event.stopImmediatePropagation()
 
-          setSortBy(el.dataset.sortString)
-        },
-        { capture: true },
-      )
-    })
+        setSortBy(el.dataset.sortString)
+      },
+      { capture: true },
+    )
+  })
 
   const simpleSortBtn = document.createElement("a")
   simpleSortBtn.href = "#"

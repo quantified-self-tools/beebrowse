@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from "vitest"
 import {
   collapse,
   uncollapse,
@@ -6,7 +6,7 @@ import {
   isCollapsed,
   getSort,
   setSort,
-} from '../src/interface'
+} from "../src/interface"
 
 const DAY = 24 * 60 * 60
 
@@ -30,61 +30,61 @@ function setupDashboard() {
   `
 }
 
-describe('interface.js - additional coverage', () => {
+describe("interface.js - additional coverage", () => {
   beforeEach(() => {
     localStorage.clear()
     setupDashboard()
   })
 
-  describe('collapse / uncollapse / toggleCollapse', () => {
-    it('collapse() collapses an open goal', () => {
-      expect(isCollapsed('g1')).toBe(false)
-      collapse('g1')
-      expect(isCollapsed('g1')).toBe(true)
+  describe("collapse / uncollapse / toggleCollapse", () => {
+    it("collapse() collapses an open goal", () => {
+      expect(isCollapsed("g1")).toBe(false)
+      collapse("g1")
+      expect(isCollapsed("g1")).toBe(true)
     })
 
-    it('uncollapse() opens a collapsed goal', () => {
-      expect(isCollapsed('g2')).toBe(true)
-      uncollapse('g2')
-      expect(isCollapsed('g2')).toBe(false)
+    it("uncollapse() opens a collapsed goal", () => {
+      expect(isCollapsed("g2")).toBe(true)
+      uncollapse("g2")
+      expect(isCollapsed("g2")).toBe(false)
     })
 
-    it('toggleCollapse() flips the current state', () => {
-      expect(isCollapsed('g1')).toBe(false)
-      toggleCollapse('g1')
-      expect(isCollapsed('g1')).toBe(true)
-      toggleCollapse('g1')
-      expect(isCollapsed('g1')).toBe(false)
+    it("toggleCollapse() flips the current state", () => {
+      expect(isCollapsed("g1")).toBe(false)
+      toggleCollapse("g1")
+      expect(isCollapsed("g1")).toBe(true)
+      toggleCollapse("g1")
+      expect(isCollapsed("g1")).toBe(false)
     })
   })
 
-  describe('getSort / setSort', () => {
-    it('getSort() returns the active sort string', () => {
+  describe("getSort / setSort", () => {
+    it("getSort() returns the active sort string", () => {
       document
         .querySelector('[data-sort-string="pledge"]')
-        .classList.add('octicon-triangle-down')
-      expect(getSort()).toBe('pledge')
+        .classList.add("octicon-triangle-down")
+      expect(getSort()).toBe("pledge")
     })
 
     it('getSort() defaults to "simple"', () => {
-      expect(getSort()).toBe('simple')
+      expect(getSort()).toBe("simple")
     })
 
-    it('setSort() applies a valid sort value', () => {
+    it("setSort() applies a valid sort value", () => {
       const events = []
       const handler = (e) => events.push(e.detail)
-      document.addEventListener('beebrowse:sorted', handler)
+      document.addEventListener("beebrowse:sorted", handler)
 
-      setSort('pledge')
+      setSort("pledge")
 
-      document.removeEventListener('beebrowse:sorted', handler)
-      expect(events).toEqual([{ by: 'pledge' }])
-      expect(getSort()).toBe('pledge')
+      document.removeEventListener("beebrowse:sorted", handler)
+      expect(events).toEqual([{ by: "pledge" }])
+      expect(getSort()).toBe("pledge")
     })
 
-    it('setSort() throws for an invalid sort value', () => {
-      expect(() => setSort('nonsense')).toThrow(
-        'Invalid value for sort: nonsense',
+    it("setSort() throws for an invalid sort value", () => {
+      expect(() => setSort("nonsense")).toThrow(
+        "Invalid value for sort: nonsense",
       )
     })
   })

@@ -16,10 +16,7 @@
     "maxTestsToLog": 0
   },
   "coverageAnalysis": "perTest",
-  "mutate": [
-    "src/**/*.js",
-    "!src/index.js"
-  ],
+  "mutate": ["src/**/*.js", "!src/index.js"],
   "ignorePatterns": ["dist", "web-ext-artifacts", ".parcel-cache"],
   "htmlReporter": {
     "fileName": "reports/mutation/index.html"

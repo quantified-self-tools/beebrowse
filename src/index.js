@@ -9,8 +9,7 @@ import * as NotFound from "./404"
 import { dispatch } from "./events"
 import { clone, getGoalElements, getGoalParentElement } from "./util"
 
-
-export function init () {
+export function init() {
   Collapse.init()
   Filter.init()
   Hotkeys.init()
