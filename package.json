@@ -14,21 +14,21 @@
     "test:mutation": "stryker run"
   },
   "devDependencies": {
-    "@stryker-mutator/core": "^9.6.1",
-    "@stryker-mutator/vitest-runner": "^9.6.1",
-    "@vitest/ui": "^4.0.15",
+    "@stryker-mutator/core": "^10.0.0",
+    "@stryker-mutator/vitest-runner": "^10.0.0",
+    "@vitest/ui": "^4.1.11",
     "cssnano": "^6.1.2",
     "eslint": "^8.47.0",
-    "eslint-config-prettier": "^10.1.1",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-promise": "^6.6.0",
     "eslint-plugin-standard": "^5.0.0",
-    "jsdom": "^27.2.0",
-    "parcel": "^2.12.0",
-    "prettier": "^3.5.3",
-    "vitest": "^4.0.15",
-    "web-ext": "^7.11.0"
+    "jsdom": "^30.0.1",
+    "parcel": "^2.16.4",
+    "prettier": "^3.9.6",
+    "vitest": "^4.1.11",
+    "web-ext": "^10.6.0"
   }
 }
