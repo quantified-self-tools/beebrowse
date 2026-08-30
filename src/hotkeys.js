@@ -1,6 +1,10 @@
+import * as KeyboardHelp from "./keyboard-help"
+
 const events = {}
 
 export function init() {
+  KeyboardHelp.init()
+
   window.addEventListener("keydown", (event) => {
     if (event.isComposing) return
     const key = event.key
