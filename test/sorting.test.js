@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"
+import { describe, it, expect, beforeEach, afterEach } from "vitest"
 import { init, getSortBy, setSortBy, allowedSortValues } from "../src/sorting"
 
 const DOWN = "octicon-triangle-down"
